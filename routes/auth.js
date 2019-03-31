@@ -86,14 +86,17 @@ router.post('/signup', [
                         return res.status(200).json(savedUser)
                     } 
                 } catch(e) {
+                    console.log("1")
                     return res.status(500).json(e.response.data)
                 }
             
             } catch(e) {
+                console.log("2")
                 return res.status(500).json(e)
             }
         }
     } catch(e) {
+        console.log("3")
         return res.status(500).json(e)
     }
 
