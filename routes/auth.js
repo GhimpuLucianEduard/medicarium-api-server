@@ -92,7 +92,7 @@ router.post('/signup', [
                 }
             
             } catch(e) {
-                console.log("2")
+                console.log(e)
                 return res.status(500).json(e)
             }
         }
