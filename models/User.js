@@ -27,14 +27,14 @@ const userSchema = mongoose.Schema({
     },
     gender: {
         type: String,
-        enum: ["male", "female", "other"]
+        enum: ["MALE", "FEMALE", "OTHER", "UNSPECIFIED"]
     },
     birthDate: {
         type: Number,
     },
     bloodType: {
         type: String,
-        enum: ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"]
+        enum: ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-", "UNSPECIFIED"]
     },
     height: {
         type: String
