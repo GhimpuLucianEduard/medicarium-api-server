@@ -24,9 +24,11 @@ router.post('/signup', [
         console.log(req.body.email)
         const user = await User.findOne({ email: req.body.email })
         if (user) {
-            return res.status(409).json({
-                error: "Email already in use."
-            })
+            if (user.status) {
+                return res.status(409).json({
+                    error: "Email already in use."
+                })
+            }
         } else {
 
             const hash = await bcrypt.hash(req.body.password, 10);
