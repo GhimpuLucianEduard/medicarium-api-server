@@ -147,6 +147,67 @@ router.post('/check2fa', async (req, res, next) => {
     }
 })
 
+router.post('/send2fa', async (req, res, next) => {
+
+    if (req.body.userId) {
+
+        if (!mongoose.Types.ObjectId.isValid(req.body.userId)) {
+            return res.status(404).json({
+                error: "User not found"
+            })
+        }
+
+        const user = await User.findOne({ _id: req.body.userId })
+
+        if (user) {
+
+            if (user.status) {
+                return res.status(300).json({
+                    message: "User already verified!"
+                })
+            }
+
+            const code = Math.floor(1000 + Math.random() * 9000).toString();
+
+            const twoFactorsCheck = new TwoFactorsCheck({
+                _id: new mongoose.Types.ObjectId(),
+                userId: user._id,
+                code: code,
+                timestamp: Date.now(),
+                resolved: false
+            })
+
+            try {
+                const response = await axios.post(smsURL, {
+                    text: `Codul pentru Medicarium valabil 5 minute: `,
+                    code: code,
+                    number: user.phoneNumber
+                })  
+            
+
+                if (response.status == 200) {
+                    console.log("aici")
+                    return res.status(200).json({
+                        msg: "Sms sent."
+                    })
+                } 
+
+            } catch(e) {
+                return res.status(500).json(e.response.data)
+            }
+        } else {
+            return res.status(404).json({
+                error: "User not found"
+            })
+        }
+
+    } else {
+        return res.status(404).json({
+            error: "userId not specified"
+        })
+    }
+})
+
 router.post('/login', [
     check('email').isEmail(),
     check('password').isLength({ min: 6})
