@@ -34,7 +34,7 @@ const userSchema = mongoose.Schema({
     },
     bloodType: {
         type: String,
-        enum: ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-", "UNSPECIFIED"]
+        enum: ["A_PLUS", "A_MINUS", "B_PLUS", "B_MINUS", "O_PLUS", "O_MINUS", "AB_PLUS", "AB_MINUS", "UNSPECIFIED"]
     },
     height: {
         type: String
