@@ -161,7 +161,34 @@ router.post('/login', [
         const user = await User.findOne({email: req.body.email})
         if (user) {
             var ok = await bcrypt.compare(req.body.password, user.password)
-            return res.status(200).json(ok)
+            
+            if (ok) {
+                if (!user.status) {
+                    return res.status(403).json({error: "User not verified, please verify your account first."})
+                } 
+                
+                const token = jwt.sign({
+                    email: user.email,
+                    userId: user._id
+                }, process.env.JWT_KEY, 
+                {
+                    expiresIn: "1000d"
+                })
+                console.log("aici")
+                return res.status(200).json({
+                    user: user,
+                    token: token
+                })
+
+            } else {
+                return res.status(401).json({
+                    error: "Auth failed!"
+                })
+            }
+        } else {
+            return res.status(404).json({
+                error: "User not found"
+            })
         }
     } catch(e) {
         return res.status(500).json(e)
