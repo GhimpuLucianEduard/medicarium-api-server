@@ -3,18 +3,19 @@ const app = express()
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const authRoutes = require('./routes/auth.js')
+const medicalHistoryRoutes = require('./routes/MedicalHistory.js')
 const mongoose = require('mongoose')
 
-const uri = "mongodb+srv://admin:e9VzoWwdEpaNE5MQ@glucose-b6a49.mongodb.net/test?retryWrites=true"
-mongoose.connect(uri)
-.then(()=>{
-    console.log("Connected to atlas")
-}).catch(err => {
-    console.log("Failed to connect to atlas")
-    console.log(err)
-})
+// const uri = "mongodb+srv://admin:e9VzoWwdEpaNE5MQ@glucose-b6a49.mongodb.net/test?retryWrites=true"
+// mongoose.connect(uri)
+// .then(()=>{
+//     console.log("Connected to atlas")
+// }).catch(err => {
+//     console.log("Failed to connect to atlas")
+//     console.log(err)
+// })
 
-//mongoose.connect('mongodb://localhost:27017/myapp', {useNewUrlParser: true});
+mongoose.connect('mongodb://localhost:27017/myapp', {useNewUrlParser: true});
 
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({extended: false}))
@@ -33,6 +34,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/auth', authRoutes)
+app.use('/medicalHistory', medicalHistoryRoutes)
 
 app.use((req, res, next) => {
     const error = new Error('Not Found')
