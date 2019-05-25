@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const MedicalRecordEntry = require('../models/MedicalRecordEntry')
 
 const medicalRecordSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
@@ -19,10 +20,10 @@ const medicalRecordSchema = mongoose.Schema({
         enum: ["PULMONOLOGY", "DERMATOLOGY", "RADIOLOGY", "PSYCHOLOGY", "IMMUNOLOGY", "DENTISTRY", "OPHTHALMOLOGY", "OTOLOGY", "HEMATOLOGY", "CARDIOLOGY", "OTHER"],
         default: "OTHER"
     }, 
-    entries: {
+    entries: [{
         type: [mongoose.Schema.Types.ObjectId],
-        default: []
-    },
+        ref: 'MedicalRecordEntry'
+    }],
 }, { versionKey: false })
 
 module.exports = mongoose.model('MedicalRecord', medicalRecordSchema)

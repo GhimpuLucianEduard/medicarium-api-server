@@ -3,6 +3,8 @@ const router = express.Router()
 const mongoose = require('mongoose')
 const checkAuth = require('../middleware/check-auth')
 const MedicalRecord = require('../models/MedicalRecord.js')
+const MedicalRecordEntry = require('../models/MedicalRecordEntry.js')
+const User = require('../models/User.js')
 const { check, validationResult } = require('express-validator/check')
 
 router.post("/", checkAuth, async (req, res, next) => {
@@ -14,7 +16,7 @@ router.post("/", checkAuth, async (req, res, next) => {
         timestamp: req.body.timestamp,
         category: req.body.category
     })
-
+    
     try {
         const saved = await medicalRecord.save()
         return res.status(200).json(saved)
@@ -29,7 +31,7 @@ router.post("/", checkAuth, async (req, res, next) => {
 router.get("/", checkAuth, async (req, res, next) => {
 
     try {
-        const records = await MedicalRecord.find({userId: req.userData.userId})
+        const records = await MedicalRecord.find({userId: req.userData.userId}).populate('entries')
         return res.status(200).json(records)
     } catch(e) {
         console.log(`Error at find: ${e}`)
@@ -62,8 +64,31 @@ router.delete('/:id', checkAuth, async (req, res, next) => {
 router.patch('/', checkAuth, async (req, res, next) => {
 
     try {
+        const entries = req.body.entries
+
+        var entriesToAdd = []
+        for(const element of entries) {
+
+            const newId = mongoose.Types.ObjectId()
+            const newEntry = new MedicalRecordEntry({
+                _id: newId,
+                imageUrl: element.imageUrl,
+                name: element.name,
+            })
+
+            const savedEntry = await newEntry.save()
+            entriesToAdd.push(newId)
+        }
+
+        req.body.entries = entriesToAdd
+
         const result = await MedicalRecord.findByIdAndUpdate({_id: req.body._id}, req.body, {new: true})
-        return res.status(200).json(result)
+
+        const result2 = await MedicalRecord
+            .findOne({_id: result.id})
+            .populate('entries')
+
+        return res.status(200).json(result2)
     } catch(e) {
         console.log(`Error at delete: ${e}`)
         return res.status(500).json({
