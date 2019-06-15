@@ -3,6 +3,7 @@ const app = express()
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const authRoutes = require('./routes/auth.js')
+const userPreferencesRoute = require('./routes/UserPreferences.js')
 const medicalHistoryRoutes = require('./routes/MedicalHistory.js')
 const mongoose = require('mongoose')
 
@@ -35,6 +36,7 @@ app.use((req, res, next) => {
 
 app.use('/auth', authRoutes)
 app.use('/medicalHistory', medicalHistoryRoutes)
+app.use('/userPreferences', userPreferencesRoute)
 
 app.use((req, res, next) => {
     const error = new Error('Not Found')

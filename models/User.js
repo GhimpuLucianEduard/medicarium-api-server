@@ -60,7 +60,37 @@ const userSchema = mongoose.Schema({
     status: {
         type: Boolean,
         required: true
-    }
+    },
+    isFirstNameVisible: {
+        type: Boolean
+    },
+    isLastNameVisible: {
+        type: Boolean
+    },
+    isPhoneNumberVisible: {
+        type: Boolean
+    },
+    isGenderVisible: {
+        type: Boolean
+    },
+    isBirthDateVisible: {
+        type: Boolean
+    },
+    isBloodTypeVisible: {
+        type: Boolean
+    },
+    isHeightVisible: {
+        type: Boolean
+    },
+    isWeightVisible: {
+        type: Boolean
+    },
+    isEmergencyContactNameVisible: {
+        type: Boolean
+    },
+    isEmergencyContactPhoneNumberVisible: {
+        type: Boolean
+    },
 }, { versionKey: false })
 
 module.exports = mongoose.model('User', userSchema)
