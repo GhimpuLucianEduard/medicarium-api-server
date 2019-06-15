@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.19.0",
     "bcrypt": "^3.0.5",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
@@ -19,8 +19,8 @@
     "express-ws": "^4.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.4.19",
-    "nodemon": "^1.18.10",
     "morgan": "^1.9.1",
+    "nodemon": "^1.18.10",
     "ws": "^6.2.0"
   },
   "devDependencies": {
