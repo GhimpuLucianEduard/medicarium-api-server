@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const User = require('../models/User.js')
 const mongoose = require('mongoose')
-
+const checkAuth = require('../middleware/check-auth')
 
 router.patch('/', checkAuth, async (req, res, next) => {
 

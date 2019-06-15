@@ -48,7 +48,17 @@ router.post('/signup', [
                 allergies: req.body.allergies,
                 emergencyContactName: req.body.emergencyContactName,
                 emergencyContactPhoneNumber: req.body.emergencyContactPhoneNumber,
-                status: false
+                status: false,
+                isFirstNameVisible: false,
+                isLastNameVisible: false,
+                isPhoneNumberVisible: false,
+                isGenderVisible: false,
+                isBirthDateVisible: false,
+                isBloodTypeVisible: false,
+                isHeightVisible: false,
+                isWeightVisible: false,
+                isEmergencyContactNameVisible: false,
+                isEmergencyContactPhoneNumberVisible: false
             })
 
             // const token = jwt.sign({
@@ -88,7 +98,7 @@ router.post('/signup', [
                     } 
                 } catch(e) {
                     console.log("1")
-                    return res.status(500).json(e.response.data)
+                    return res.status(500).json(e)
                 }
             
             } catch(e) {
