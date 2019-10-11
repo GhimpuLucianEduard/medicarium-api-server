@@ -48,7 +48,7 @@ router.post('/signup', [
                 allergies: req.body.allergies,
                 emergencyContactName: req.body.emergencyContactName,
                 emergencyContactPhoneNumber: req.body.emergencyContactPhoneNumber,
-                status: false,
+                status: true,
                 isFirstNameVisible: false,
                 isLastNameVisible: false,
                 isPhoneNumberVisible: false,
@@ -73,33 +73,33 @@ router.post('/signup', [
             {
                 await user.save()
                 const savedUser = await User.findOne({_id: user._id}).select("-password")
-
+                return res.status(200).json(savedUser)
                 const code = Math.floor(1000 + Math.random() * 9000).toString();
 
-                const twoFactorsCheck = new TwoFactorsCheck({
-                    _id: new mongoose.Types.ObjectId(),
-                    userId: savedUser._id,
-                    code: code,
-                    timestamp: Date.now(),
-                    resolved: false
-                })
+//                 const twoFactorsCheck = new TwoFactorsCheck({
+//                     _id: new mongoose.Types.ObjectId(),
+//                     userId: savedUser._id,
+//                     code: code,
+//                     timestamp: Date.now(),
+//                     resolved: false
+//                 })
 
-                await twoFactorsCheck.save()
+                //await twoFactorsCheck.save()
 
-                try {
-                    const response = await axios.post(smsURL, {
-                        text: `Codul pentru Medicarium valabil 5 minute: `,
-                        code: code,
-                        number: savedUser.phoneNumber
-                    })  
+//                 try {
+//                     const response = await axios.post(smsURL, {
+//                         text: `Codul pentru Medicarium valabil 5 minute: `,
+//                         code: code,
+//                         number: savedUser.phoneNumber
+//                     })  
                     
-                    if (response.status == 200) {
-                        return res.status(200).json(savedUser)
-                    } 
-                } catch(e) {
-                    console.log("1")
-                    return res.status(500).json(e)
-                }
+//                     if (response.status == 200) {
+//                         return res.status(200).json(savedUser)
+//                     } 
+//                 } catch(e) {
+//                     console.log("1")
+//                     return res.status(500).json(e)
+//                 }
             
             } catch(e) {
                 console.log(e)
